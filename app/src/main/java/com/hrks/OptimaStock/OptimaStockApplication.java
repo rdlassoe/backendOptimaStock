@@ -12,9 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class OptimaStockApplication {
     public static void main(String[] args) {
         SpringApplication.run(OptimaStockApplication.class, args);
-
-        System.out.println("¡Hola! Este es un mensaje de prueba en Java con IntelliJ IDEA.");
-
     }
 
 }
