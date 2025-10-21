@@ -35,7 +35,7 @@ public class TypeDocumentController {
 
     @PutMapping("/update/{document}")
     public ResponseEntity<TypeDocument> update(@PathVariable String document, @RequestBody TypeDocument typeDocument){
-        TypeDocument dataUpdate = typeDocumentService.update(document, typeDocument).;
+        TypeDocument dataUpdate = typeDocumentService.update(document, typeDocument);
         return ResponseEntity.ok(dataUpdate);
     }
 
