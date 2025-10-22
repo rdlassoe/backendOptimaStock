@@ -17,12 +17,13 @@ public class TypeDocumentController {
     @Autowired
     private TypeDocumentService typeDocumentService;
 
-    @PostMapping("/create")
-    public TypeDocument Create(@RequestBody TypeDocument typeDocument){
-        return typeDocumentService.CreateTypeDocument(typeDocument);
+    @PostMapping
+    public ResponseEntity<String> Create(@RequestBody TypeDocument typeDocument){
+        String answer = typeDocumentService.CreateTypeDocument(typeDocument.gettypeDocument());
+        return ResponseEntity.ok(answer);
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<TypeDocument> Get(){
         return typeDocumentService.GetAllTypeDocument();
     }
@@ -33,7 +34,7 @@ public class TypeDocumentController {
         return typeDocumentService.GetById(id);
     }
 
-    @PutMapping("/update/{document}")
+    @PutMapping("/{document}")
     public ResponseEntity<TypeDocument> update(@PathVariable String document, @RequestBody TypeDocument typeDocument){
         TypeDocument dataUpdate = typeDocumentService.update(document, typeDocument);
         return ResponseEntity.ok(dataUpdate);
