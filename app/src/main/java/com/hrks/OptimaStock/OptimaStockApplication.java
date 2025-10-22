@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 @EnableJpaRepositories(basePackages = "com.hrks.OptimaStock.typeDocument.repository")
 public class OptimaStockApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(OptimaStockApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OptimaStockApplication.class, args);
+    }
+
 }

@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface TypeDocumentRepository extends JpaRepository<TypeDocument, Long> {
     Optional<TypeDocument> findBytypeDocument(String typeDocument);
+    Boolean existsByTypeDocument(String typeDocument);
 }
