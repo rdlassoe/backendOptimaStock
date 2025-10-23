@@ -13,6 +13,8 @@ public class TypeDocumentService {
     @Autowired
     private TypeDocumentRepository typeDocumentRepository;
 
+
+
     public TypeDocument CreateTypeDocument(TypeDocument typeDocument){
         return typeDocumentRepository.save(typeDocument);
     }
@@ -36,5 +38,7 @@ public class TypeDocumentService {
         typeDocumentRepository.deleteById(id);
         return null;
     }
+
+
 
 }

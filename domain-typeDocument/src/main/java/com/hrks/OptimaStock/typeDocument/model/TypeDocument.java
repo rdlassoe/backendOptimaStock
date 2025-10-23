@@ -16,7 +16,9 @@ public class TypeDocument {
       this.typeDocument = typeDocument;
     }
 
-    public Long getidtypeDocument(){return idtypeDocument;}
+    public Long getIdTypeDocument() {
+        return idtypeDocument;
+    }
     public void setidtypeDocument(Long id){ this.idtypeDocument = idtypeDocument;}
 
     public String gettypeDocument(){return typeDocument;}
