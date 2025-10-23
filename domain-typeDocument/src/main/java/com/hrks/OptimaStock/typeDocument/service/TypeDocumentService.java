@@ -32,8 +32,9 @@ public class TypeDocumentService {
         return typeDocumentRepository.findById(id);
     }
 
-    public TypeDocument update(String typeDocument, TypeDocument newData){
-        TypeDocument data = typeDocumentRepository.findBytypeDocument(typeDocument).orElseThrow(() -> new RuntimeException("Tipo Documento No Encontrado" + typeDocument));
+    public TypeDocument update( Long id, TypeDocument newData){
+        TypeDocument data = typeDocumentRepository.findById(id).orElseThrow(() -> new RuntimeException("Tipo Dcumento No encontrado " + id));
+
         data.settypeDocument(newData.gettypeDocument());
         return typeDocumentRepository.save(data);
     }

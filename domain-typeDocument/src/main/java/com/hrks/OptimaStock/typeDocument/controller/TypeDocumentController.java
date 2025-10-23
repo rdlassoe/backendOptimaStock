@@ -24,7 +24,7 @@ public class TypeDocumentController {
     }
 
     @GetMapping
-    public List<TypeDocument> Get(){
+    public List<TypeDocument> GetAll(){
         return typeDocumentService.GetAllTypeDocument();
     }
 
@@ -34,9 +34,9 @@ public class TypeDocumentController {
         return typeDocumentService.GetById(id);
     }
 
-    @PutMapping("/{document}")
-    public ResponseEntity<TypeDocument> update(@PathVariable String document, @RequestBody TypeDocument typeDocument){
-        TypeDocument dataUpdate = typeDocumentService.update(document, typeDocument);
+    @PutMapping("/{id}")
+    public ResponseEntity<TypeDocument> update(@PathVariable Long id, @RequestBody TypeDocument typeDocument){
+        TypeDocument dataUpdate = typeDocumentService.update(id, typeDocument);
         return ResponseEntity.ok(dataUpdate);
     }
 
