@@ -15,11 +15,12 @@
 	<name>OptimaStock</name>
 	<description>Demo project for Spring Boot</description>
     <modules>
-        <module>app</module>
         <module>domain-typePerson</module>
         <module>domain-typeDocument</module>
         <module>domain-Category</module>
         <module>domain-person</module>
+        <module>common</module>
+        <module>app</module>
     </modules>
 	<url/>
 	<licenses>

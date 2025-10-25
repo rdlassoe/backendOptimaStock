@@ -11,14 +11,16 @@ import java.util.Locale;
         "domain.typeDocument",
         "domain.typePerson",
         "domain.category",
-        "domain.person"
+        "domain.person",
+        "common"
+
 })
 @EnableJpaRepositories(basePackages = {
         "com.hrks.OptimaStock.typeDocument.repository",
         "com.hrks.OptimaStock.typePerson.repository",
         "com.hrks.OptimaStock.category.repository",
         "com.hrks.OptimaStock.person.repository"}
-        )
+)
 
 public class OptimaStockApplication {
     public static void main(String[] args) {
