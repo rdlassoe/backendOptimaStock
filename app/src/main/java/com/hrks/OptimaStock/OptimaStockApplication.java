@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages = {
         "com.hrks.OptimaStock",
         "domain.typeDocument",
-        "domain.iva"
+        "domain.iva",
+        "domain.person",
+        "common"
 })
 @EnableJpaRepositories(basePackages = {"com.hrks.OptimaStock.typeDocument.repository",
         "com.hrks.OptimaStock.iva.repository"})

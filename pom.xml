@@ -15,6 +15,8 @@
 	<name>OptimaStock</name>
 	<description>Demo project for Spring Boot</description>
     <modules>
+        <module>common</module>
+        <module>domain-product</module>
         <module>domain-iva</module>
         <module>domain-typeDocument</module>
         <module>app</module>
