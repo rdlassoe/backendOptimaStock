@@ -1,5 +1,6 @@
 package com.hrks.OptimaStock.person.model;
 
+
 import com.hrks.OptimaStock.typeDocument.model.TypeDocument;
 import com.hrks.OptimaStock.typePerson.model.TypePerson;
 import jakarta.persistence.*;
@@ -19,7 +20,7 @@ public class Person {
     @Column(name = "lastName", length = 45)
     private String lastName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "typeDocumentId", referencedColumnName = "idTypeDocument")
     private TypeDocument typeDocument;
 
@@ -32,7 +33,7 @@ public class Person {
     @Column(name = "mobile", length = 45)
     private String mobile;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "typePersonId", referencedColumnName = "idTypePerson")
     private TypePerson typePerson;
 
