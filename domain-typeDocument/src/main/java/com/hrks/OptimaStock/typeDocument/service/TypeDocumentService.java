@@ -13,18 +13,14 @@ public class TypeDocumentService {
     @Autowired
     private TypeDocumentRepository typeDocumentRepository;
 
-    public String CreateTypeDocument(String typeDocument){
-        if(typeDocumentRepository.existsByTypeDocument(typeDocument)){
-            return "Este tipo Documento (" + typeDocument + ") ya existe";
-        }else {
-            TypeDocument newTypeDocument = new TypeDocument();
-            newTypeDocument.settypeDocument(typeDocument);
-            typeDocumentRepository.save(newTypeDocument);
-            return "Creado con Exito";
-        }
+
+
+    public TypeDocument CreateTypeDocument(TypeDocument typeDocument){
+        return typeDocumentRepository.save(typeDocument);
     }
 
     public List<TypeDocument> GetAllTypeDocument(){
+
         return typeDocumentRepository.findAll();
     }
 
@@ -32,9 +28,8 @@ public class TypeDocumentService {
         return typeDocumentRepository.findById(id);
     }
 
-    public TypeDocument update( Long id, TypeDocument newData){
-        TypeDocument data = typeDocumentRepository.findById(id).orElseThrow(() -> new RuntimeException("Tipo Dcumento No encontrado " + id));
-
+    public TypeDocument update(String typeDocument, TypeDocument newData){
+        TypeDocument data = typeDocumentRepository.findBytypeDocument(typeDocument).orElseThrow(() -> new RuntimeException("Tipo Documento No Encontrado" + typeDocument));
         data.settypeDocument(newData.gettypeDocument());
         return typeDocumentRepository.save(data);
     }
@@ -43,5 +38,7 @@ public class TypeDocumentService {
         typeDocumentRepository.deleteById(id);
         return null;
     }
+
+
 
 }

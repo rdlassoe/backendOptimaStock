@@ -13,17 +13,15 @@ public class TypeDocument {
 
     public TypeDocument(){}
     public TypeDocument(String TypeDocument){
-        this.typeDocument = typeDocument;
+      this.typeDocument = typeDocument;
     }
 
-    public Long getidtypeDocument(){
-        return idtypeDocument;}
-    public void setidtypeDocument(Long id){
-        this.idtypeDocument = idtypeDocument;}
+    public Long getIdTypeDocument() {
+        return idtypeDocument;
+    }
+    public void setidtypeDocument(Long id){ this.idtypeDocument = idtypeDocument;}
 
-    public String gettypeDocument(){
-        return typeDocument;}
-    public void settypeDocument(String typeDocument){
-        this.typeDocument = typeDocument;}
+    public String gettypeDocument(){return typeDocument;}
+    public void settypeDocument(String typeDocument){this.typeDocument = typeDocument;}
 
 }
