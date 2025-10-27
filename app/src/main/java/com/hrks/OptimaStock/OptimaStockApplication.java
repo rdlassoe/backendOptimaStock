@@ -4,14 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import java.util.Locale;
-
 @SpringBootApplication(scanBasePackages = {
         "com.hrks.OptimaStock",
         "domain.typeDocument",
         "domain.typePerson",
         "domain.category",
         "domain.person",
+        "domain.iva",
+        "domain.product",
         "common"
 
 })
@@ -19,7 +19,9 @@ import java.util.Locale;
         "com.hrks.OptimaStock.typeDocument.repository",
         "com.hrks.OptimaStock.typePerson.repository",
         "com.hrks.OptimaStock.category.repository",
-        "com.hrks.OptimaStock.person.repository"}
+        "com.hrks.OptimaStock.person.repository",
+        "com.hrks.OptimaStock.iva.repository"
+    }
 )
 
 public class OptimaStockApplication {
