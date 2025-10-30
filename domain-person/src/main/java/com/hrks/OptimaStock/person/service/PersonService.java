@@ -1,93 +1,94 @@
 package com.hrks.OptimaStock.person.service;
 
 import com.hrks.OptimaStock.common.dto.PersonDTO;
+import com.hrks.OptimaStock.common.dto.TypeDocumentDTO;
+import com.hrks.OptimaStock.common.dto.TypePersonDTO;
+import com.hrks.OptimaStock.common.port.TypeDocumentPort;
+import com.hrks.OptimaStock.common.port.TypePersonPort;
 import com.hrks.OptimaStock.person.model.Person;
 import com.hrks.OptimaStock.person.repository.PersonRepository;
-import com.hrks.OptimaStock.typeDocument.model.TypeDocument;
-import com.hrks.OptimaStock.typeDocument.repository.TypeDocumentRepository;
-import com.hrks.OptimaStock.typePerson.model.TypePerson;
-import com.hrks.OptimaStock.typePerson.repository.TypePersonRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonService {
 
-    @Autowired
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
+    private final TypeDocumentPort typeDocumentPort;
+    private final TypePersonPort typePersonPort;
 
     @Autowired
-    private TypeDocumentRepository typeDocumentRepository;
+    public PersonService(PersonRepository personRepository,
+                         TypeDocumentPort typeDocumentPort,
+                         TypePersonPort typePersonPort) {
+        this.personRepository = personRepository;
+        this.typeDocumentPort = typeDocumentPort;
+        this.typePersonPort = typePersonPort;
+    }
 
-    @Autowired
-    private TypePersonRepository typePersonRepository;
-
+    // ✅ Crear persona
     @Transactional
     public Person createPerson(PersonDTO dto) {
 
-        // Buscar entidades relacionadas
-        TypeDocument typeDocument = typeDocumentRepository.findById(dto.getTypeDocumentId())
+        // Buscar entidades relacionadas mediante PUERTOS (no repositorios)
+        TypeDocumentDTO typeDocument = typeDocumentPort.findById(dto.getTypeDocumentId())
                 .orElseThrow(() -> new RuntimeException("TypeDocument not found with ID: " + dto.getTypeDocumentId()));
 
-        TypePerson typePerson = typePersonRepository.findById(dto.getTypePersonId())
+        TypePersonDTO typePerson = typePersonPort.findById(dto.getTypePersonId())
                 .orElseThrow(() -> new RuntimeException("TypePerson not found with ID: " + dto.getTypePersonId()));
 
-        // Crear persona
+        // Crear la entidad Person
         Person person = new Person();
         person.setFirstName(dto.getFirstName());
         person.setLastName(dto.getLastName());
         person.setIdentification(dto.getIdentification());
         person.setEmail(dto.getEmail());
         person.setMobile(dto.getMobile());
-        person.setTypeDocument(typeDocument);
-        person.setTypePerson(typePerson);
+        person.setTypeDocumentId(typeDocument.getIdtypeDocument());
+        person.setTypePersonId(typePerson.getIdtypePerson());
 
-        // Guardar persona en la base de datos
         return personRepository.save(person);
     }
 
-
-
-    // READ ALL
+    // ✅ Obtener todas las personas
     public List<Person> getAllPersons() {
         return personRepository.findAll();
     }
 
-    // READ BY ID
+    // ✅ Obtener persona por ID
     public Person getPersonById(Long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Person not found with ID: " + id));
     }
 
-    // UPDATE
     // ✅ Actualizar persona
     @Transactional
     public Person updatePerson(Long id, PersonDTO dto) {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Person not found with ID: " + id));
 
-        // Actualizamos solo los campos enviados
+        // Validar y actualizar las relaciones mediante los puertos
+        if (dto.getTypeDocumentId() != null) {
+            TypeDocumentDTO typeDocument = typeDocumentPort.findById(dto.getTypeDocumentId())
+                    .orElseThrow(() -> new RuntimeException("TypeDocument not found with ID: " + dto.getTypeDocumentId()));
+            person.setTypeDocumentId(typeDocument.getIdtypeDocument());
+        }
+
+        if (dto.getTypePersonId() != null) {
+            TypePersonDTO typePerson = typePersonPort.findById(dto.getTypePersonId())
+                    .orElseThrow(() -> new RuntimeException("TypePerson not found with ID: " + dto.getTypePersonId()));
+            person.setTypePersonId(typePerson.getIdtypePerson());
+        }
+
+        // Actualizar datos básicos
         person.setFirstName(dto.getFirstName());
         person.setLastName(dto.getLastName());
         person.setIdentification(dto.getIdentification());
         person.setEmail(dto.getEmail());
         person.setMobile(dto.getMobile());
-
-        if (dto.getTypeDocumentId() != null) {
-            TypeDocument typeDocument = typeDocumentRepository.findById(dto.getTypeDocumentId())
-                    .orElseThrow(() -> new RuntimeException("TypeDocument not found with ID: " + dto.getTypeDocumentId()));
-            person.setTypeDocument(typeDocument);
-        }
-
-        if (dto.getTypePersonId() != null) {
-            TypePerson typePerson = typePersonRepository.findById(dto.getTypePersonId())
-                    .orElseThrow(() -> new RuntimeException("TypePerson not found with ID: " + dto.getTypePersonId()));
-            person.setTypePerson(typePerson);
-        }
 
         return personRepository.save(person);
     }
