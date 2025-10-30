@@ -20,7 +20,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "com.hrks.OptimaStock.typePerson.repository",
         "com.hrks.OptimaStock.category.repository",
         "com.hrks.OptimaStock.person.repository",
-        "com.hrks.OptimaStock.iva.repository"
+        "com.hrks.OptimaStock.iva.repository",
+        "com.hrks.OptimaStock.product.repository"
     }
 )
 
