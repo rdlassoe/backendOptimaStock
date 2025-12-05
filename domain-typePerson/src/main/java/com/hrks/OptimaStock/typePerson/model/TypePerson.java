@@ -3,27 +3,37 @@ package com.hrks.OptimaStock.typePerson.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "type_Person")
+@Table(name = "type_person")
 public class TypePerson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idtypePerson;
-    private String typePerson;
+    @Column(name = "id_type_person")
+    private Integer idTypePerson;
 
-    //getIdTypePerson
+    @Column(name = "description", length = 15)
+    private String description;
 
-    public TypePerson() {}
-
-    public TypePerson(String typePerson) {
-        this.typePerson = typePerson;
+    public TypePerson() {
     }
 
-    public Long getIdTypePerson() { return idtypePerson; }
-    public void setIdtypePerson(Long id) { this.idtypePerson = id; }
+    public TypePerson(String description) {
+        this.description = description;
+    }
 
-    public String getTypePerson() { return typePerson; }
-    public void settypePerson(String typePerson) { this.typePerson = typePerson; }
+    public Integer getIdTypePerson() {
+        return idTypePerson;
+    }
 
+    public void setIdTypePerson(Integer idTypePerson) {
+        this.idTypePerson = idTypePerson;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

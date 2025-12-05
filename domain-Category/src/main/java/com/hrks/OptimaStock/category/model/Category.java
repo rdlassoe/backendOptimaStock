@@ -8,31 +8,31 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCategory")
-    private Long idCategory;
+    private Integer id;
 
-    @Column(name = "descriptionCategory", nullable = false, length = 100)
-    private String descriptionCategory;
+    @Column(nullable = false, length = 100)
+    private String description;
 
-    public Category() {}
-
-    public Category(String descriptionCategory) {
-        this.descriptionCategory = descriptionCategory;
+    public Category() {
     }
 
-    public Long getIdCategory() {
-        return idCategory;
+    public Category(String description) {
+        this.description = description;
     }
 
-    public void setIdCategory(Long idCategory) {
-        this.idCategory = idCategory;
+    public Integer getId() {
+        return id;
     }
 
-    public String getDescriptionCategory() {
-        return descriptionCategory;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setDescriptionCategory(String descriptionCategory) {
-        this.descriptionCategory = descriptionCategory;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

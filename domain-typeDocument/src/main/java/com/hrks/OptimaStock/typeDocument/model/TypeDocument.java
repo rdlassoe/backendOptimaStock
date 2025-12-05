@@ -8,20 +8,32 @@ public class TypeDocument {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idtypeDocument;
-    private  String typeDocument;
+    @Column(name = "id_type_document")
+    private Integer idTypeDocument;
 
-    public TypeDocument(){}
-    public TypeDocument(String TypeDocument){
-      this.typeDocument = typeDocument;
+    @Column(name = "description", length = 15)
+    private String description;
+
+    public TypeDocument() {
     }
 
-    public Long getIdTypeDocument() {
-        return idtypeDocument;
+    public TypeDocument(String description) {
+        this.description = description;
     }
-    public void setidtypeDocument(Long id){ this.idtypeDocument = idtypeDocument;}
 
-    public String gettypeDocument(){return typeDocument;}
-    public void settypeDocument(String typeDocument){this.typeDocument = typeDocument;}
+    public Integer getIdTypeDocument() {
+        return idTypeDocument;
+    }
 
+    public void setIdTypeDocument(Integer idTypeDocument) {
+        this.idTypeDocument = idTypeDocument;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

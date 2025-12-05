@@ -1,9 +1,7 @@
 package com.hrks.OptimaStock.typePerson.service;
 
-
 import com.hrks.OptimaStock.typePerson.model.TypePerson;
 import com.hrks.OptimaStock.typePerson.repository.TypePersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,36 +10,25 @@ import java.util.Optional;
 @Service
 public class TypePersonService {
 
-    @Autowired
-    private TypePersonRepository typePersonRepository;
+    private final TypePersonRepository typePersonRepository;
 
-    public TypePerson CreateTypePerson(TypePerson typePerson){
-        return typePersonRepository.save(typePerson);
+    public TypePersonService(TypePersonRepository typePersonRepository) {
+        this.typePersonRepository = typePersonRepository;
     }
 
-    public List<TypePerson> GetAllTypePerson(){
+    public List<TypePerson> findAll() {
         return typePersonRepository.findAll();
     }
 
-    public Optional<TypePerson> GetById(Long id){
+    public Optional<TypePerson> findById(Integer id) {
         return typePersonRepository.findById(id);
     }
 
-    public TypePerson update(Long id, TypePerson typePersonDetails) {
-        Optional<TypePerson> optionalTypePerson = typePersonRepository.findById(id);
-
-        if (optionalTypePerson.isPresent()) {
-            TypePerson existingTypePerson = optionalTypePerson.get();
-            existingTypePerson.settypePerson(typePersonDetails.getTypePerson());
-            return typePersonRepository.save(existingTypePerson);
-        } else {
-            throw new RuntimeException("TypePerson con id " + id + " no encontrado");
-        }
+    public TypePerson save(TypePerson typePerson) {
+        return typePersonRepository.save(typePerson);
     }
 
-    public Optional<TypePerson> Delete(Long id){
+    public void delete(Integer id) {
         typePersonRepository.deleteById(id);
-        return null;
     }
-
 }
