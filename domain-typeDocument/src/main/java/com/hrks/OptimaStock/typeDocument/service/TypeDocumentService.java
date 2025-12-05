@@ -2,50 +2,33 @@ package com.hrks.OptimaStock.typeDocument.service;
 
 import com.hrks.OptimaStock.typeDocument.model.TypeDocument;
 import com.hrks.OptimaStock.typeDocument.repository.TypeDocumentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TypeDocumentService {
 
-    @Autowired
-    private TypeDocumentRepository typeDocumentRepository;
+    private final TypeDocumentRepository typeDocumentRepository;
 
-
-
-    public String CreateTypeDocument(String typeDocument){
-        if(typeDocumentRepository.existsByTypeDocument(typeDocument)){
-            return "Este registro (" + typeDocument + ") ya existe";
-        }else{
-            TypeDocument newtypeDocument = new TypeDocument();
-            newtypeDocument.settypeDocument(typeDocument);
-            typeDocumentRepository.save(newtypeDocument);
-            return "Creado con exito";
-        }
+    public TypeDocumentService(TypeDocumentRepository typeDocumentRepository) {
+        this.typeDocumentRepository = typeDocumentRepository;
     }
 
-    public List<TypeDocument> GetAllTypeDocument(){
-
+    public List<TypeDocument> findAll() {
         return typeDocumentRepository.findAll();
     }
 
-    public Optional<TypeDocument> GetById(Long id){
+    public Optional<TypeDocument> findById(Integer id) {
         return typeDocumentRepository.findById(id);
     }
 
-    public TypeDocument update(Long id, TypeDocument newData){
-        TypeDocument data = typeDocumentRepository.findById(id).orElseThrow(() -> new RuntimeException("Tipo Documento No Encontrado" + id));
-        data.settypeDocument(newData.gettypeDocument());
-        return typeDocumentRepository.save(data);
+    public TypeDocument save(TypeDocument typeDocument) {
+        return typeDocumentRepository.save(typeDocument);
     }
 
-    public Optional<TypeDocument> Delete(Long id){
+    public void delete(Integer id) {
         typeDocumentRepository.deleteById(id);
-        return null;
     }
-
-
-
 }

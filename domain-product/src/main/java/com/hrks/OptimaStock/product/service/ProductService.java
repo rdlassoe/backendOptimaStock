@@ -1,46 +1,60 @@
 package com.hrks.OptimaStock.product.service;
 
-import com.hrks.OptimaStock.common.dto.ProductDTO;
-import com.hrks.OptimaStock.common.port.in.ProductInputPort;
-import com.hrks.OptimaStock.common.port.out.ProductOutputPort;
-import jakarta.transaction.Transactional;
+import com.hrks.OptimaStock.category.model.Category;
+import com.hrks.OptimaStock.category.repository.CategoryRepository;
+import com.hrks.OptimaStock.iva.model.IVA;
+import com.hrks.OptimaStock.iva.repository.IVARepository;
+import com.hrks.OptimaStock.product.model.Product;
+import com.hrks.OptimaStock.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ProductService implements ProductInputPort {
+public class ProductService {
 
-    private final ProductOutputPort productOutputPort;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final IVARepository ivaRepository;
 
-    public ProductService(ProductOutputPort productOutputPort) {
-        this.productOutputPort = productOutputPort;
+    public ProductService(ProductRepository productRepository,
+            CategoryRepository categoryRepository,
+            IVARepository ivaRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+        this.ivaRepository = ivaRepository;
     }
 
-    @Override
-    @Transactional
-    public ProductDTO createProduct(ProductDTO productDTO) {
-        // Aquí no se toca el modelo Product, solo se pasa el DTO al puerto de salida
-        return productOutputPort.save(productDTO);
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
-    @Override
-    public List<ProductDTO> getAllProducts() {
-        return productOutputPort.findAll();
+    public Optional<Product> findById(Integer id) {
+        return productRepository.findById(id);
     }
 
-    @Override
-    public ProductDTO getProductById(Long id) {
-        return productOutputPort.findById(id);
+    public Product save(Product product) {
+        // Fetch and validate Category
+        if (product.getCategory() != null && product.getCategory().getId() != null) {
+            Category category = categoryRepository.findById(product.getCategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Category with id " +
+                            product.getCategory().getId() + " not found"));
+            product.setCategory(category);
+        }
+
+        // Fetch and validate IVA
+        if (product.getIva() != null && product.getIva().getId() != null) {
+            IVA iva = ivaRepository.findById(product.getIva().getId())
+                    .orElseThrow(() -> new RuntimeException("IVA with id " +
+                            product.getIva().getId() + " not found"));
+            product.setIva(iva);
+        }
+
+        return productRepository.save(product);
     }
 
-    @Override
-    @Transactional
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
-        return productOutputPort.update(id, productDTO);
-    }
-
-    @Override
-    public void deleteProduct(Long id) {
-        productOutputPort.delete(id);
+    public void delete(Integer id) {
+        productRepository.deleteById(id);
     }
 }

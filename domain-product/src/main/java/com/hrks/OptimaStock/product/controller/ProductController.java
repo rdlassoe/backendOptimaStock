@@ -1,43 +1,62 @@
 package com.hrks.OptimaStock.product.controller;
 
-import com.hrks.OptimaStock.common.dto.ProductDTO;
-import com.hrks.OptimaStock.common.port.in.ProductInputPort;
+import com.hrks.OptimaStock.product.model.Product;
+import com.hrks.OptimaStock.product.service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/product")
 public class ProductController {
 
-    private final ProductInputPort productInputPort;
+    private final ProductService productService;
 
-    public ProductController(ProductInputPort productInputPort) {
-        this.productInputPort = productInputPort;
-    }
-
-    @PostMapping
-    public ProductDTO create(@RequestBody ProductDTO productDTO) {
-        return productInputPort.createProduct(productDTO);
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
-    public List<ProductDTO> getAll() {
-        return productInputPort.getAllProducts();
+    public ResponseEntity<List<Product>> getAll() {
+        return ResponseEntity.ok(productService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ProductDTO getById(@PathVariable Long id) {
-        return productInputPort.getProductById(id);
+    public ResponseEntity<Product> getById(@PathVariable Integer id) {
+        return productService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
+        return ResponseEntity.ok(productService.save(product));
     }
 
     @PutMapping("/{id}")
-    public ProductDTO update(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        return productInputPort.updateProduct(id, productDTO);
+    public ResponseEntity<Product> update(@PathVariable Integer id,
+            @Valid @RequestBody Product product) {
+        return productService.findById(id)
+                .map(p -> {
+                    p.setCode(product.getCode());
+                    p.setName(product.getName());
+                    p.setDescription(product.getDescription());
+                    p.setCategory(product.getCategory());
+                    p.setMinQuantity(product.getMinQuantity());
+                    p.setCost(product.getCost());
+                    p.setPrice(product.getPrice());
+                    p.setIva(product.getIva());
+                    p.setStatus(product.getStatus());
+                    return ResponseEntity.ok(productService.save(p));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        productInputPort.deleteProduct(id);
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -2,53 +2,52 @@ package com.hrks.OptimaStock.typePerson.controller;
 
 import com.hrks.OptimaStock.typePerson.model.TypePerson;
 import com.hrks.OptimaStock.typePerson.service.TypePersonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/typePerson")
+@RequestMapping("/type-person")
 public class TypePersonController {
 
-    @Autowired
-    private TypePersonService typePersonService;
-    // Crear una nueva persona
-    @PostMapping ("/create")
-    public TypePerson create(@RequestBody TypePerson typePerson) {
-        return typePersonService.CreateTypePerson(typePerson);
+    private final TypePersonService typePersonService;
+
+    public TypePersonController(TypePersonService typePersonService) {
+        this.typePersonService = typePersonService;
     }
 
-    // Listar todas las personas
-    @GetMapping("/list")
-    public List<TypePerson> getAll() {
-        return typePersonService.GetAllTypePerson();
+    @GetMapping
+    public ResponseEntity<List<TypePerson>> getAll() {
+        return ResponseEntity.ok(typePersonService.findAll());
     }
 
-    // Obtener una persona por ID
-    @GetMapping("list/{id}")
-    public Optional<TypePerson> getById(@PathVariable Long id) {
-        return typePersonService.GetById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<TypePerson> getById(@PathVariable Integer id) {
+        return typePersonService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Actualizar persona por ID
-    @PutMapping("update/{id}")
-    public ResponseEntity<TypePerson> update(
-            @PathVariable Long id,
-            @RequestBody TypePerson typePersonDetails) {
-        try {
-            TypePerson updated = typePersonService.update(id, typePersonDetails);
-            return ResponseEntity.ok(updated);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping
+    public ResponseEntity<TypePerson> create(@RequestBody TypePerson typePerson) {
+        return ResponseEntity.ok(typePersonService.save(typePerson));
     }
 
-    // Eliminar persona por ID
-    @DeleteMapping("delete/{id}")
-    public Optional<TypePerson> deleteById(@PathVariable Long id) {
-        return typePersonService.Delete(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<TypePerson> update(@PathVariable Integer id,
+                                             @RequestBody TypePerson typePerson) {
+        return typePersonService.findById(id)
+                .map(t -> {
+                    t.setDescription(typePerson.getDescription());
+                    return ResponseEntity.ok(typePersonService.save(t));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        typePersonService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

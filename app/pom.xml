@@ -27,11 +27,7 @@
             <artifactId>domain-iva</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.hrks</groupId>
-            <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
         <dependency>
             <groupId>com.hrks</groupId>
             <artifactId>domain-typeDocument</artifactId>
@@ -53,11 +49,55 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.hrks</groupId>
+            <artifactId>domain-typeMovement</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hrks</groupId>
+            <artifactId>domain-paymentMethod</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.hrks</groupId>
+            <artifactId>domain-sale</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.hrks</groupId>
+            <artifactId>domain-saleDetail</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hrks</groupId>
+            <artifactId>domain-user</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hrks</groupId>
+            <artifactId>domain-inventory</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    
+        <dependency>
+            <groupId>com.hrks</groupId>
+            <artifactId>domain-inventoryMovement</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        
+        
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
+
     </dependencies>
 
     <build>

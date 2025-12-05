@@ -2,48 +2,52 @@ package com.hrks.OptimaStock.typeDocument.controller;
 
 import com.hrks.OptimaStock.typeDocument.model.TypeDocument;
 import com.hrks.OptimaStock.typeDocument.service.TypeDocumentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/typeDocuments")
-
+@RequestMapping("/type-document")
 public class TypeDocumentController {
 
-    @Autowired
-    private TypeDocumentService typeDocumentService;
+    private final TypeDocumentService typeDocumentService;
 
-    @PostMapping
-    public ResponseEntity<String> Create(@RequestBody TypeDocument typeDocument){
-        String answer = typeDocumentService.CreateTypeDocument(typeDocument.gettypeDocument());
-        return ResponseEntity.ok(answer);
+    public TypeDocumentController(TypeDocumentService typeDocumentService) {
+        this.typeDocumentService = typeDocumentService;
     }
 
     @GetMapping
-    public List<TypeDocument> GetAll(){
-        return typeDocumentService.GetAllTypeDocument();
+    public ResponseEntity<List<TypeDocument>> getAll() {
+        return ResponseEntity.ok(typeDocumentService.findAll());
     }
 
     @GetMapping("/{id}")
-    public Optional<TypeDocument>GetById(@PathVariable Long id){
+    public ResponseEntity<TypeDocument> getById(@PathVariable Integer id) {
+        return typeDocumentService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-        return typeDocumentService.GetById(id);
+    @PostMapping
+    public ResponseEntity<TypeDocument> create(@RequestBody TypeDocument typeDocument) {
+        return ResponseEntity.ok(typeDocumentService.save(typeDocument));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TypeDocument> update(@PathVariable Long id, @RequestBody TypeDocument typeDocument){
-        TypeDocument dataUpdate = typeDocumentService.update(id, typeDocument);
-        return ResponseEntity.ok(dataUpdate);
+    public ResponseEntity<TypeDocument> update(@PathVariable Integer id,
+                                               @RequestBody TypeDocument typeDocument) {
+        return typeDocumentService.findById(id)
+                .map(t -> {
+                    t.setDescription(typeDocument.getDescription());
+                    return ResponseEntity.ok(typeDocumentService.save(t));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public Optional<TypeDocument>DeleteById(@PathVariable Long id){
-        return typeDocumentService.Delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        typeDocumentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
-
 }
-
